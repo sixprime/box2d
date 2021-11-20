@@ -42,12 +42,13 @@ public:
 			b2BodyDef bd;
 			b2Body* ground = m_world->CreateBody(&bd);
 
-			b2EdgeShape shape;
-			shape.SetTwoSided(b2Vec2(-40.0f, 0.0f), b2Vec2(40.0f, 0.0f));
-			ground->CreateFixture(&shape, 0.0f);
+			// A simple edge seems to not be enough with limited fixed-point fraction bits precision, ex: fp_16_16.
+			b2PolygonShape box;
+			box.SetAsBox(40.0f, 1.0f, b2Vec2(0.0f, -1.0f), 0.0f);
+			ground->CreateFixture(&box, 0.0f);
 
-			shape.SetTwoSided(b2Vec2(20.0f, 0.0f), b2Vec2(20.0f, 20.0f));
-			ground->CreateFixture(&shape, 0.0f);
+            box.SetAsBox(0.2f, 10.0f, b2Vec2(20.0f, 10.0f), 0.0f);
+            ground->CreateFixture(&box, 0.0f);
 		}
 
 		float xs[5] = {0.0f, -10.0f, -5.0f, 5.0f, 10.0f};

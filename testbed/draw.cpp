@@ -188,6 +188,13 @@ static GLuint sCreateShaderProgram(const char* vs, const char* fs)
 	return programId;
 }
 
+// TODO : clean fixed-point drawing code.
+struct vec2f
+{
+	float x;
+	float y;
+};
+
 //
 struct GLRenderPoints
 {
@@ -234,7 +241,14 @@ struct GLRenderPoints
 		// Vertex buffer
 		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
 		glVertexAttribPointer(m_vertexAttribute, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertices), m_vertices, GL_DYNAMIC_DRAW);
+
+		vec2f vertices[e_maxVertices];
+		for (auto i = 0; i < e_maxVertices; i++)
+		{
+			vertices[i].x = float(m_vertices[i].x);
+			vertices[i].y = float(m_vertices[i].y);
+		}
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
 		glVertexAttribPointer(m_colorAttribute, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
@@ -295,7 +309,14 @@ struct GLRenderPoints
 		glBindVertexArray(m_vaoId);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(b2Vec2), m_vertices);
+
+        vec2f vertices[e_maxVertices];
+        for (auto i = 0; i < e_maxVertices; i++)
+        {
+            vertices[i].x = float(m_vertices[i].x);
+            vertices[i].y = float(m_vertices[i].y);
+        }
+		glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(vec2f), vertices);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(b2Color), m_colors);
@@ -374,7 +395,14 @@ struct GLRenderLines
 		// Vertex buffer
 		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
 		glVertexAttribPointer(m_vertexAttribute, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertices), m_vertices, GL_DYNAMIC_DRAW);
+
+        vec2f vertices[e_maxVertices];
+        for (auto i = 0; i < e_maxVertices; i++)
+        {
+            vertices[i].x = float(m_vertices[i].x);
+            vertices[i].y = float(m_vertices[i].y);
+        }
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
 		glVertexAttribPointer(m_colorAttribute, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
@@ -430,7 +458,14 @@ struct GLRenderLines
 		glBindVertexArray(m_vaoId);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(b2Vec2), m_vertices);
+
+        vec2f vertices[e_maxVertices];
+        for (auto i = 0; i < e_maxVertices; i++)
+        {
+            vertices[i].x = float(m_vertices[i].x);
+            vertices[i].y = float(m_vertices[i].y);
+        }
+		glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(vec2f), vertices);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(b2Color), m_colors);
@@ -502,7 +537,14 @@ struct GLRenderTriangles
 		// Vertex buffer
 		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
 		glVertexAttribPointer(m_vertexAttribute, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-		glBufferData(GL_ARRAY_BUFFER, sizeof(m_vertices), m_vertices, GL_DYNAMIC_DRAW);
+
+        vec2f vertices[e_maxVertices];
+        for (auto i = 0; i < e_maxVertices; i++)
+        {
+            vertices[i].x = float(m_vertices[i].x);
+            vertices[i].y = float(m_vertices[i].y);
+        }
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
 		glVertexAttribPointer(m_colorAttribute, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
@@ -558,7 +600,14 @@ struct GLRenderTriangles
 		glBindVertexArray(m_vaoId);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[0]);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(b2Vec2), m_vertices);
+
+        vec2f vertices[e_maxVertices];
+        for (auto i = 0; i < e_maxVertices; i++)
+        {
+            vertices[i].x = float(m_vertices[i].x);
+            vertices[i].y = float(m_vertices[i].y);
+        }
+		glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(vec2f), vertices);
 
 		glBindBuffer(GL_ARRAY_BUFFER, m_vboIds[1]);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, m_count * sizeof(b2Color), m_colors);

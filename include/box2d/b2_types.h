@@ -35,8 +35,7 @@ typedef unsigned short uint16;
 typedef unsigned int uint32;
 
 #if defined(B2_FIXED_POINT)
-//using float32 = fpm::fixed_16_16;
-using float32 = fpm::fixed_24_8;
+using float32 = fpm::fixed_16_16;
 #else
 using float32 = float;
 #endif // B2_FIXED_POINT
