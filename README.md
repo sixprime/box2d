@@ -39,6 +39,7 @@ Please do not submit pull requests with new features or core library changes. In
 - Small block and stack allocators
 - Centralized tuning parameters
 - Highly portable C++ with no use of STL containers
+- Fixed-point support with `fpm` (https://github.com/MikeLankamp/fpm)
 
 ### Testbed
 - OpenGL with GLFW
