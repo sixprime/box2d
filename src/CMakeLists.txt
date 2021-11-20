@@ -113,6 +113,8 @@ set_target_properties(box2d PROPERTIES
     SOVERSION ${PROJECT_VERSION_MAJOR}
 )
 
+target_link_libraries(box2d fpm)
+
 if(MSVC)
   set_target_properties(box2d PROPERTIES
     COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"

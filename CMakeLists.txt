@@ -31,6 +31,7 @@ if (BOX2D_USER_SETTINGS)
 endif()
 
 add_subdirectory(src)
+add_subdirectory(extern/fpm)
 
 if (BOX2D_BUILD_DOCS)
     set(DOXYGEN_SKIP_DOT TRUE)
