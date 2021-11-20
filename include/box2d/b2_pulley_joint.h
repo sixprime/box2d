@@ -26,7 +26,7 @@
 #include "b2_api.h"
 #include "b2_joint.h"
 
-const float b2_minPulleyLength = 2.0f;
+const float32 b2_minPulleyLength = 2.0f;
 
 /// Pulley joint definition. This requires two ground anchors,
 /// two dynamic body anchor points, and a pulley ratio.
@@ -49,7 +49,7 @@ struct B2_API b2PulleyJointDef : public b2JointDef
 	void Initialize(b2Body* bodyA, b2Body* bodyB,
 					const b2Vec2& groundAnchorA, const b2Vec2& groundAnchorB,
 					const b2Vec2& anchorA, const b2Vec2& anchorB,
-					float ratio);
+					float32 ratio);
 
 	/// The first ground anchor in world coordinates. This point never moves.
 	b2Vec2 groundAnchorA;
@@ -64,13 +64,13 @@ struct B2_API b2PulleyJointDef : public b2JointDef
 	b2Vec2 localAnchorB;
 
 	/// The a reference length for the segment attached to bodyA.
-	float lengthA;
+	float32 lengthA;
 
 	/// The a reference length for the segment attached to bodyB.
-	float lengthB;
+	float32 lengthB;
 
 	/// The pulley ratio, used to simulate a block-and-tackle.
-	float ratio;
+	float32 ratio;
 };
 
 /// The pulley joint is connected to two bodies and two fixed ground points.
@@ -87,8 +87,8 @@ public:
 	b2Vec2 GetAnchorA() const override;
 	b2Vec2 GetAnchorB() const override;
 
-	b2Vec2 GetReactionForce(float inv_dt) const override;
-	float GetReactionTorque(float inv_dt) const override;
+	b2Vec2 GetReactionForce(float32 inv_dt) const override;
+	float32 GetReactionTorque(float32 inv_dt) const override;
 
 	/// Get the first ground anchor.
 	b2Vec2 GetGroundAnchorA() const;
@@ -97,19 +97,19 @@ public:
 	b2Vec2 GetGroundAnchorB() const;
 
 	/// Get the current length of the segment attached to bodyA.
-	float GetLengthA() const;
+	float32 GetLengthA() const;
 
 	/// Get the current length of the segment attached to bodyB.
-	float GetLengthB() const;
+	float32 GetLengthB() const;
 
 	/// Get the pulley ratio.
-	float GetRatio() const;
+	float32 GetRatio() const;
 
 	/// Get the current length of the segment attached to bodyA.
-	float GetCurrentLengthA() const;
+	float32 GetCurrentLengthA() const;
 
 	/// Get the current length of the segment attached to bodyB.
-	float GetCurrentLengthB() const;
+	float32 GetCurrentLengthB() const;
 
 	/// Dump joint to dmLog
 	void Dump() override;
@@ -128,15 +128,15 @@ protected:
 
 	b2Vec2 m_groundAnchorA;
 	b2Vec2 m_groundAnchorB;
-	float m_lengthA;
-	float m_lengthB;
+	float32 m_lengthA;
+	float32 m_lengthB;
 
 	// Solver shared
 	b2Vec2 m_localAnchorA;
 	b2Vec2 m_localAnchorB;
-	float m_constant;
-	float m_ratio;
-	float m_impulse;
+	float32 m_constant;
+	float32 m_ratio;
+	float32 m_impulse;
 
 	// Solver temp
 	int32 m_indexA;
@@ -147,11 +147,11 @@ protected:
 	b2Vec2 m_rB;
 	b2Vec2 m_localCenterA;
 	b2Vec2 m_localCenterB;
-	float m_invMassA;
-	float m_invMassB;
-	float m_invIA;
-	float m_invIB;
-	float m_mass;
+	float32 m_invMassA;
+	float32 m_invMassB;
+	float32 m_invIA;
+	float32 m_invIB;
+	float32 m_mass;
 };
 
 #endif

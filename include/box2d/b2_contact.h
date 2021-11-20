@@ -39,20 +39,20 @@ class b2ContactListener;
 
 /// Friction mixing law. The idea is to allow either fixture to drive the friction to zero.
 /// For example, anything slides on ice.
-inline float b2MixFriction(float friction1, float friction2)
+inline float32 b2MixFriction(float32 friction1, float32 friction2)
 {
 	return b2Sqrt(friction1 * friction2);
 }
 
 /// Restitution mixing law. The idea is allow for anything to bounce off an inelastic surface.
 /// For example, a superball bounces on anything.
-inline float b2MixRestitution(float restitution1, float restitution2)
+inline float32 b2MixRestitution(float32 restitution1, float32 restitution2)
 {
 	return restitution1 > restitution2 ? restitution1 : restitution2;
 }
 
 /// Restitution mixing law. This picks the lowest value.
-inline float b2MixRestitutionThreshold(float threshold1, float threshold2)
+inline float32 b2MixRestitutionThreshold(float32 threshold1, float32 threshold2)
 {
 	return threshold1 < threshold2 ? threshold1 : threshold2;
 }
@@ -128,39 +128,39 @@ public:
 
 	/// Override the default friction mixture. You can call this in b2ContactListener::PreSolve.
 	/// This value persists until set or reset.
-	void SetFriction(float friction);
+	void SetFriction(float32 friction);
 
 	/// Get the friction.
-	float GetFriction() const;
+	float32 GetFriction() const;
 
 	/// Reset the friction mixture to the default value.
 	void ResetFriction();
 
 	/// Override the default restitution mixture. You can call this in b2ContactListener::PreSolve.
 	/// The value persists until you set or reset.
-	void SetRestitution(float restitution);
+	void SetRestitution(float32 restitution);
 
 	/// Get the restitution.
-	float GetRestitution() const;
+	float32 GetRestitution() const;
 
 	/// Reset the restitution to the default value.
 	void ResetRestitution();
 
 	/// Override the default restitution velocity threshold mixture. You can call this in b2ContactListener::PreSolve.
 	/// The value persists until you set or reset.
-	void SetRestitutionThreshold(float threshold);
+	void SetRestitutionThreshold(float32 threshold);
 
 	/// Get the restitution threshold.
-	float GetRestitutionThreshold() const;
+	float32 GetRestitutionThreshold() const;
 
 	/// Reset the restitution threshold to the default value.
 	void ResetRestitutionThreshold();
 
 	/// Set the desired tangent speed for a conveyor belt behavior. In meters per second.
-	void SetTangentSpeed(float speed);
+	void SetTangentSpeed(float32 speed);
 
 	/// Get the desired tangent speed. In meters per second.
-	float GetTangentSpeed() const;
+	float32 GetTangentSpeed() const;
 
 	/// Evaluate this contact with your own manifold and transforms.
 	virtual void Evaluate(b2Manifold* manifold, const b2Transform& xfA, const b2Transform& xfB) = 0;
@@ -232,13 +232,13 @@ protected:
 	b2Manifold m_manifold;
 
 	int32 m_toiCount;
-	float m_toi;
+	float32 m_toi;
 
-	float m_friction;
-	float m_restitution;
-	float m_restitutionThreshold;
+	float32 m_friction;
+	float32 m_restitution;
+	float32 m_restitutionThreshold;
 
-	float m_tangentSpeed;
+	float32 m_tangentSpeed;
 };
 
 inline b2Manifold* b2Contact::GetManifold()
@@ -328,12 +328,12 @@ inline void b2Contact::FlagForFiltering()
 	m_flags |= e_filterFlag;
 }
 
-inline void b2Contact::SetFriction(float friction)
+inline void b2Contact::SetFriction(float32 friction)
 {
 	m_friction = friction;
 }
 
-inline float b2Contact::GetFriction() const
+inline float32 b2Contact::GetFriction() const
 {
 	return m_friction;
 }
@@ -343,12 +343,12 @@ inline void b2Contact::ResetFriction()
 	m_friction = b2MixFriction(m_fixtureA->m_friction, m_fixtureB->m_friction);
 }
 
-inline void b2Contact::SetRestitution(float restitution)
+inline void b2Contact::SetRestitution(float32 restitution)
 {
 	m_restitution = restitution;
 }
 
-inline float b2Contact::GetRestitution() const
+inline float32 b2Contact::GetRestitution() const
 {
 	return m_restitution;
 }
@@ -358,12 +358,12 @@ inline void b2Contact::ResetRestitution()
 	m_restitution = b2MixRestitution(m_fixtureA->m_restitution, m_fixtureB->m_restitution);
 }
 
-inline void b2Contact::SetRestitutionThreshold(float threshold)
+inline void b2Contact::SetRestitutionThreshold(float32 threshold)
 {
 	m_restitutionThreshold = threshold;
 }
 
-inline float b2Contact::GetRestitutionThreshold() const
+inline float32 b2Contact::GetRestitutionThreshold() const
 {
 	return m_restitutionThreshold;
 }
@@ -373,12 +373,12 @@ inline void b2Contact::ResetRestitutionThreshold()
 	m_restitutionThreshold = b2MixRestitutionThreshold(m_fixtureA->m_restitutionThreshold, m_fixtureB->m_restitutionThreshold);
 }
 
-inline void b2Contact::SetTangentSpeed(float speed)
+inline void b2Contact::SetTangentSpeed(float32 speed)
 {
 	m_tangentSpeed = speed;
 }
 
-inline float b2Contact::GetTangentSpeed() const
+inline float32 b2Contact::GetTangentSpeed() const
 {
 	return m_tangentSpeed;
 }

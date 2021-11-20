@@ -12,4 +12,6 @@ set_target_properties(fpm PROPERTIES
     CXX_EXTENSIONS NO
 )
 
+INSTALL(EXPORT fpm DESTINATION include)
+
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${FPM_HEADER_FILES})

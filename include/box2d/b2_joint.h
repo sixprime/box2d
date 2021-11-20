@@ -51,8 +51,8 @@ enum b2JointType
 struct B2_API b2Jacobian
 {
 	b2Vec2 linear;
-	float angularA;
-	float angularB;
+	float32 angularA;
+	float32 angularB;
 };
 
 /// A joint edge is used to connect bodies and joints together
@@ -96,13 +96,13 @@ struct B2_API b2JointDef
 };
 
 /// Utility to compute linear stiffness values from frequency and damping ratio
-B2_API void b2LinearStiffness(float& stiffness, float& damping,
-	float frequencyHertz, float dampingRatio,
+B2_API void b2LinearStiffness(float32& stiffness, float32& damping,
+	float32 frequencyHertz, float32 dampingRatio,
 	const b2Body* bodyA, const b2Body* bodyB);
 
 /// Utility to compute rotational stiffness values frequency and damping ratio
-B2_API void b2AngularStiffness(float& stiffness, float& damping,
-	float frequencyHertz, float dampingRatio,
+B2_API void b2AngularStiffness(float32& stiffness, float32& damping,
+	float32 frequencyHertz, float32 dampingRatio,
 	const b2Body* bodyA, const b2Body* bodyB);
 
 /// The base joint class. Joints are used to constraint two bodies together in
@@ -127,10 +127,10 @@ public:
 	virtual b2Vec2 GetAnchorB() const = 0;
 
 	/// Get the reaction force on bodyB at the joint anchor in Newtons.
-	virtual b2Vec2 GetReactionForce(float inv_dt) const = 0;
+	virtual b2Vec2 GetReactionForce(float32 inv_dt) const = 0;
 
 	/// Get the reaction torque on bodyB in N*m.
-	virtual float GetReactionTorque(float inv_dt) const = 0;
+	virtual float32 GetReactionTorque(float32 inv_dt) const = 0;
 
 	/// Get the next joint the world joint list.
 	b2Joint* GetNext();

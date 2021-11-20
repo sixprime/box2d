@@ -608,7 +608,7 @@ void b2World::SolveTOI(const b2TimeStep& step)
 	{
 		// Find the first TOI.
 		b2Contact* minContact = nullptr;
-		float minAlpha = 1.0f;
+		float32 minAlpha = 1.0f;
 
 		for (b2Contact* c = m_contactManager.m_contactList; c; c = c->m_next)
 		{
@@ -624,7 +624,7 @@ void b2World::SolveTOI(const b2TimeStep& step)
 				continue;
 			}
 
-			float alpha = 1.0f;
+			float32 alpha = 1.0f;
 			if (c->m_flags & b2Contact::e_toiFlag)
 			{
 				// This contact has a valid cached TOI.
@@ -668,7 +668,7 @@ void b2World::SolveTOI(const b2TimeStep& step)
 
 				// Compute the TOI for this contact.
 				// Put the sweeps onto the same time interval.
-				float alpha0 = bA->m_sweep.alpha0;
+				float32 alpha0 = bA->m_sweep.alpha0;
 
 				if (bA->m_sweep.alpha0 < bB->m_sweep.alpha0)
 				{
@@ -698,7 +698,7 @@ void b2World::SolveTOI(const b2TimeStep& step)
 				b2TimeOfImpact(&output, &input);
 
 				// Beta is the fraction of the remaining portion of the .
-				float beta = output.t;
+				float32 beta = output.t;
 				if (output.state == b2TOIOutput::e_touching)
 				{
 					alpha = b2Min(alpha0 + (1.0f - alpha0) * beta, 1.0f);
@@ -902,7 +902,7 @@ void b2World::SolveTOI(const b2TimeStep& step)
 	}
 }
 
-void b2World::Step(float dt, int32 velocityIterations, int32 positionIterations)
+void b2World::Step(float32 dt, int32 velocityIterations, int32 positionIterations)
 {
 	b2Timer stepTimer;
 
@@ -1001,7 +1001,7 @@ void b2World::QueryAABB(b2QueryCallback* callback, const b2AABB& aabb) const
 
 struct b2WorldRayCastWrapper
 {
-	float RayCastCallback(const b2RayCastInput& input, int32 proxyId)
+	float32 RayCastCallback(const b2RayCastInput& input, int32 proxyId)
 	{
 		void* userData = broadPhase->GetUserData(proxyId);
 		b2FixtureProxy* proxy = (b2FixtureProxy*)userData;
@@ -1012,7 +1012,7 @@ struct b2WorldRayCastWrapper
 
 		if (hit)
 		{
-			float fraction = output.fraction;
+			float32 fraction = output.fraction;
 			b2Vec2 point = (1.0f - fraction) * input.p1 + fraction * input.p2;
 			return callback->ReportFixture(fixture, point, output.normal, fraction);
 		}
@@ -1045,7 +1045,7 @@ void b2World::DrawShape(b2Fixture* fixture, const b2Transform& xf, const b2Color
 			b2CircleShape* circle = (b2CircleShape*)fixture->GetShape();
 
 			b2Vec2 center = b2Mul(xf, circle->m_p);
-			float radius = circle->m_radius;
+			float32 radius = circle->m_radius;
 			b2Vec2 axis = b2Mul(xf.q, b2Vec2(1.0f, 0.0f));
 
 			m_debugDraw->DrawSolidCircle(center, radius, axis, color);
@@ -1229,7 +1229,7 @@ int32 b2World::GetTreeBalance() const
 	return m_contactManager.m_broadPhase.GetTreeBalance();
 }
 
-float b2World::GetTreeQuality() const
+float32 b2World::GetTreeQuality() const
 {
 	return m_contactManager.m_broadPhase.GetTreeQuality();
 }

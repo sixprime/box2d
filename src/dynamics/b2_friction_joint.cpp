@@ -68,13 +68,13 @@ void b2FrictionJoint::InitVelocityConstraints(const b2SolverData& data)
 	m_invIA = m_bodyA->m_invI;
 	m_invIB = m_bodyB->m_invI;
 
-	float aA = data.positions[m_indexA].a;
+	float32 aA = data.positions[m_indexA].a;
 	b2Vec2 vA = data.velocities[m_indexA].v;
-	float wA = data.velocities[m_indexA].w;
+	float32 wA = data.velocities[m_indexA].w;
 
-	float aB = data.positions[m_indexB].a;
+	float32 aB = data.positions[m_indexB].a;
 	b2Vec2 vB = data.velocities[m_indexB].v;
-	float wB = data.velocities[m_indexB].w;
+	float32 wB = data.velocities[m_indexB].w;
 
 	b2Rot qA(aA), qB(aB);
 
@@ -91,8 +91,8 @@ void b2FrictionJoint::InitVelocityConstraints(const b2SolverData& data)
 	//     [  -r1y*iA*r1x-r2y*iB*r2x, mA+r1x^2*iA+mB+r2x^2*iB,           r1x*iA+r2x*iB]
 	//     [          -r1y*iA-r2y*iB,           r1x*iA+r2x*iB,                   iA+iB]
 
-	float mA = m_invMassA, mB = m_invMassB;
-	float iA = m_invIA, iB = m_invIB;
+	float32 mA = m_invMassA, mB = m_invMassB;
+	float32 iA = m_invIA, iB = m_invIB;
 
 	b2Mat22 K;
 	K.ex.x = mA + mB + iA * m_rA.y * m_rA.y + iB * m_rB.y * m_rB.y;
@@ -135,22 +135,22 @@ void b2FrictionJoint::InitVelocityConstraints(const b2SolverData& data)
 void b2FrictionJoint::SolveVelocityConstraints(const b2SolverData& data)
 {
 	b2Vec2 vA = data.velocities[m_indexA].v;
-	float wA = data.velocities[m_indexA].w;
+	float32 wA = data.velocities[m_indexA].w;
 	b2Vec2 vB = data.velocities[m_indexB].v;
-	float wB = data.velocities[m_indexB].w;
+	float32 wB = data.velocities[m_indexB].w;
 
-	float mA = m_invMassA, mB = m_invMassB;
-	float iA = m_invIA, iB = m_invIB;
+	float32 mA = m_invMassA, mB = m_invMassB;
+	float32 iA = m_invIA, iB = m_invIB;
 
-	float h = data.step.dt;
+	float32 h = data.step.dt;
 
 	// Solve angular friction
 	{
-		float Cdot = wB - wA;
-		float impulse = -m_angularMass * Cdot;
+		float32 Cdot = wB - wA;
+		float32 impulse = -m_angularMass * Cdot;
 
-		float oldImpulse = m_angularImpulse;
-		float maxImpulse = h * m_maxTorque;
+		float32 oldImpulse = m_angularImpulse;
+		float32 maxImpulse = h * m_maxTorque;
 		m_angularImpulse = b2Clamp(m_angularImpulse + impulse, -maxImpulse, maxImpulse);
 		impulse = m_angularImpulse - oldImpulse;
 
@@ -166,7 +166,7 @@ void b2FrictionJoint::SolveVelocityConstraints(const b2SolverData& data)
 		b2Vec2 oldImpulse = m_linearImpulse;
 		m_linearImpulse += impulse;
 
-		float maxImpulse = h * m_maxForce;
+		float32 maxImpulse = h * m_maxForce;
 
 		if (m_linearImpulse.LengthSquared() > maxImpulse * maxImpulse)
 		{
@@ -206,34 +206,34 @@ b2Vec2 b2FrictionJoint::GetAnchorB() const
 	return m_bodyB->GetWorldPoint(m_localAnchorB);
 }
 
-b2Vec2 b2FrictionJoint::GetReactionForce(float inv_dt) const
+b2Vec2 b2FrictionJoint::GetReactionForce(float32 inv_dt) const
 {
 	return inv_dt * m_linearImpulse;
 }
 
-float b2FrictionJoint::GetReactionTorque(float inv_dt) const
+float32 b2FrictionJoint::GetReactionTorque(float32 inv_dt) const
 {
 	return inv_dt * m_angularImpulse;
 }
 
-void b2FrictionJoint::SetMaxForce(float force)
+void b2FrictionJoint::SetMaxForce(float32 force)
 {
 	b2Assert(b2IsValid(force) && force >= 0.0f);
 	m_maxForce = force;
 }
 
-float b2FrictionJoint::GetMaxForce() const
+float32 b2FrictionJoint::GetMaxForce() const
 {
 	return m_maxForce;
 }
 
-void b2FrictionJoint::SetMaxTorque(float torque)
+void b2FrictionJoint::SetMaxTorque(float32 torque)
 {
 	b2Assert(b2IsValid(torque) && torque >= 0.0f);
 	m_maxTorque = torque;
 }
 
-float b2FrictionJoint::GetMaxTorque() const
+float32 b2FrictionJoint::GetMaxTorque() const
 {
 	return m_maxTorque;
 }

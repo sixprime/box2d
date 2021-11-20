@@ -27,7 +27,10 @@
 
 #include <stddef.h>
 #include <assert.h>
+
+#ifndef B2_FIXED_POINT
 #include <float.h>
+#endif
 
 #if !defined(NDEBUG)
 	#define b2DEBUG
@@ -36,9 +39,15 @@
 #define B2_NOT_USED(x) ((void)(x))
 #define b2Assert(A) assert(A)
 
+#ifdef B2_FIXED_POINT
+#define	b2_maxFloat		std::numeric_limits<float32>::max()
+#define b2_epsilon		std::numeric_limits<float32>::epsilon()
+#define b2_pi			float32::pi()
+#else
 #define	b2_maxFloat		FLT_MAX
 #define	b2_epsilon		FLT_EPSILON
 #define b2_pi			3.14159265359f
+#endif // B2_FIXED_POINT
 
 /// @file
 /// Global tuning constants based on meters-kilograms-seconds (MKS) units.

@@ -100,7 +100,7 @@ DOCTEST_TEST_CASE("hello world")
 		position = body->GetPosition();
 		angle = body->GetAngle();
 
-		printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
+		printf("%4.2f %4.2f %4.2f\n", float(position.x), float(position.y), float(angle));
 	}
 
 	// When the world destructor is called, all bodies and joints are freed. This can

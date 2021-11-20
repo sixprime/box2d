@@ -88,8 +88,8 @@ public:
 
 		if (ImGui::SliderFloat("Hertz", &m_hertz, 0.0f, 10.0f, "%.1f"))
 		{
-			float stiffness;
-			float damping;
+			float32 stiffness;
+			float32 damping;
 			b2LinearStiffness(stiffness, damping, m_hertz, m_dampingRatio, m_joint->GetBodyA(), m_joint->GetBodyB());
 			m_joint->SetStiffness(stiffness);
 			m_joint->SetDamping(damping);
@@ -97,8 +97,8 @@ public:
 
 		if (ImGui::SliderFloat("Damping Ratio", &m_dampingRatio, 0.0f, 2.0f, "%.1f"))
 		{
-			float stiffness;
-			float damping;
+			float32 stiffness;
+			float32 damping;
 			b2LinearStiffness(stiffness, damping, m_hertz, m_dampingRatio, m_joint->GetBodyA(), m_joint->GetBodyB());
 			m_joint->SetStiffness(stiffness);
 			m_joint->SetDamping(damping);

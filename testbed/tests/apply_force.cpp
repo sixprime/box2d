@@ -106,14 +106,14 @@ public:
 			m_body->CreateFixture(&sd1);
 			m_body->CreateFixture(&sd2);
 
-			float gravity = 10.0f;
-			float I = m_body->GetInertia();
-			float mass = m_body->GetMass();
+			float32 gravity = 10.0f;
+			float32 I = m_body->GetInertia();
+			float32 mass = m_body->GetMass();
 
 			// Compute an effective radius that can be used to
 			// set the max torque for a friction joint
 			// For a circle: I = 0.5 * m * r * r ==> r = sqrt(2 * I / m)
-			float radius = b2Sqrt(2.0f * I / mass);
+			float32 radius = b2Sqrt(2.0f * I / mass);
 
 			b2FrictionJointDef jd;
 			jd.bodyA = ground;
@@ -146,12 +146,12 @@ public:
 
 				body->CreateFixture(&fd);
 
-				float gravity = 10.0f;
-				float I = body->GetInertia();
-				float mass = body->GetMass();
+				float32 gravity = 10.0f;
+				float32 I = body->GetInertia();
+				float32 mass = body->GetMass();
 
 				// For a circle: I = 0.5 * m * r * r ==> r = sqrt(2 * I / m)
-				float radius = b2Sqrt(2.0f * I / mass);
+				float32 radius = b2Sqrt(2.0f * I / mass);
 
 				b2FrictionJointDef jd;
 				jd.localAnchorA.SetZero();

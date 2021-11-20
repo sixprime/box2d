@@ -42,7 +42,7 @@ public:
 		m_hit = false;
 	}
 
-	float ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float fraction) override
+	float32 ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float32 fraction) override
 	{
 		uintptr_t index = fixture->GetUserData().pointer;
 		if (index == 1)
@@ -77,7 +77,7 @@ public:
 		m_hit = false;
 	}
 
-	float ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float) override
+	float32 ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float32) override
 	{
 		uintptr_t index = fixture->GetUserData().pointer;
 		if (index == 1)
@@ -117,7 +117,7 @@ public:
 		m_count = 0;
 	}
 
-	float ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float) override
+	float32 ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float32) override
 	{
 		uintptr_t index = fixture->GetUserData().pointer;
 		if (index == 1)
@@ -191,8 +191,8 @@ public:
 
 		{
 			float w = 1.0f;
-			float b = w / (2.0f + b2Sqrt(2.0f));
-			float s = b2Sqrt(2.0f) * b;
+			float b = w / (2.0f + b2Sqrt(float32(2.0f)));
+			float s = b2Sqrt(float32(2.0f)) * b;
 
 			b2Vec2 vertices[8];
 			vertices[0].Set(0.5f * s, 0.0f);

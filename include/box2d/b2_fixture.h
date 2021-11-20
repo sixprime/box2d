@@ -79,17 +79,17 @@ struct B2_API b2FixtureDef
 	b2FixtureUserData userData;
 
 	/// The friction coefficient, usually in the range [0,1].
-	float friction;
+	float32 friction;
 
 	/// The restitution (elasticity) usually in the range [0,1].
-	float restitution;
+	float32 restitution;
 
 	/// Restitution velocity threshold, usually in m/s. Collisions above this
 	/// speed have restitution applied (will bounce).
-	float restitutionThreshold;
+	float32 restitutionThreshold;
 
 	/// The density, usually in kg/m^2.
-	float density;
+	float32 density;
 
 	/// A sensor shape collects contact information but never generates a collision
 	/// response.
@@ -175,31 +175,31 @@ public:
 
 	/// Set the density of this fixture. This will _not_ automatically adjust the mass
 	/// of the body. You must call b2Body::ResetMassData to update the body's mass.
-	void SetDensity(float density);
+	void SetDensity(float32 density);
 
 	/// Get the density of this fixture.
-	float GetDensity() const;
+	float32 GetDensity() const;
 
 	/// Get the coefficient of friction.
-	float GetFriction() const;
+	float32 GetFriction() const;
 
 	/// Set the coefficient of friction. This will _not_ change the friction of
 	/// existing contacts.
-	void SetFriction(float friction);
+	void SetFriction(float32 friction);
 
 	/// Get the coefficient of restitution.
-	float GetRestitution() const;
+	float32 GetRestitution() const;
 
 	/// Set the coefficient of restitution. This will _not_ change the restitution of
 	/// existing contacts.
-	void SetRestitution(float restitution);
+	void SetRestitution(float32 restitution);
 
 	/// Get the restitution velocity threshold.
-	float GetRestitutionThreshold() const;
+	float32 GetRestitutionThreshold() const;
 
 	/// Set the restitution threshold. This will _not_ change the restitution threshold of
 	/// existing contacts.
-	void SetRestitutionThreshold(float threshold);
+	void SetRestitutionThreshold(float32 threshold);
 
 	/// Get the fixture's AABB. This AABB may be enlarge and/or stale.
 	/// If you need a more accurate AABB, compute it using the shape and
@@ -229,16 +229,16 @@ protected:
 
 	void Synchronize(b2BroadPhase* broadPhase, const b2Transform& xf1, const b2Transform& xf2);
 
-	float m_density;
+	float32 m_density;
 
 	b2Fixture* m_next;
 	b2Body* m_body;
 
 	b2Shape* m_shape;
 
-	float m_friction;
-	float m_restitution;
-	float m_restitutionThreshold;
+	float32 m_friction;
+	float32 m_restitution;
+	float32 m_restitutionThreshold;
 
 	b2FixtureProxy* m_proxies;
 	int32 m_proxyCount;
@@ -300,43 +300,43 @@ inline const b2Fixture* b2Fixture::GetNext() const
 	return m_next;
 }
 
-inline void b2Fixture::SetDensity(float density)
+inline void b2Fixture::SetDensity(float32 density)
 {
 	b2Assert(b2IsValid(density) && density >= 0.0f);
 	m_density = density;
 }
 
-inline float b2Fixture::GetDensity() const
+inline float32 b2Fixture::GetDensity() const
 {
 	return m_density;
 }
 
-inline float b2Fixture::GetFriction() const
+inline float32 b2Fixture::GetFriction() const
 {
 	return m_friction;
 }
 
-inline void b2Fixture::SetFriction(float friction)
+inline void b2Fixture::SetFriction(float32 friction)
 {
 	m_friction = friction;
 }
 
-inline float b2Fixture::GetRestitution() const
+inline float32 b2Fixture::GetRestitution() const
 {
 	return m_restitution;
 }
 
-inline void b2Fixture::SetRestitution(float restitution)
+inline void b2Fixture::SetRestitution(float32 restitution)
 {
 	m_restitution = restitution;
 }
 
-inline float b2Fixture::GetRestitutionThreshold() const
+inline float32 b2Fixture::GetRestitutionThreshold() const
 {
 	return m_restitutionThreshold;
 }
 
-inline void b2Fixture::SetRestitutionThreshold(float threshold)
+inline void b2Fixture::SetRestitutionThreshold(float32 threshold)
 {
 	m_restitutionThreshold = threshold;
 }

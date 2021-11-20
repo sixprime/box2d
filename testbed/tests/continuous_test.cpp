@@ -84,7 +84,7 @@ public:
 		extern B2_API int32 b2_gjkCalls, b2_gjkIters, b2_gjkMaxIters;
 		extern B2_API int32 b2_toiCalls, b2_toiIters;
 		extern B2_API int32 b2_toiRootIters, b2_toiMaxRootIters;
-		extern B2_API float b2_toiTime, b2_toiMaxTime;
+		extern B2_API float32 b2_toiTime, b2_toiMaxTime;
 
 		b2_gjkCalls = 0; b2_gjkIters = 0; b2_gjkMaxIters = 0;
 		b2_toiCalls = 0; b2_toiIters = 0;
@@ -97,7 +97,7 @@ public:
 		extern B2_API int32 b2_gjkCalls, b2_gjkIters, b2_gjkMaxIters;
 		extern B2_API int32 b2_toiCalls, b2_toiIters;
 		extern B2_API int32 b2_toiRootIters, b2_toiMaxRootIters;
-		extern B2_API float b2_toiTime, b2_toiMaxTime;
+		extern B2_API float32 b2_toiTime, b2_toiMaxTime;
 
 		b2_gjkCalls = 0; b2_gjkIters = 0; b2_gjkMaxIters = 0;
 		b2_toiCalls = 0; b2_toiIters = 0;
@@ -125,7 +125,7 @@ public:
 
 		extern B2_API int32 b2_toiCalls, b2_toiIters;
 		extern B2_API int32 b2_toiRootIters, b2_toiMaxRootIters;
-		extern B2_API float b2_toiTime, b2_toiMaxTime;
+		extern B2_API float32 b2_toiTime, b2_toiMaxTime;
 
 		if (b2_toiCalls > 0)
 		{

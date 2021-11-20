@@ -31,8 +31,8 @@ public:
 		m_fixture = NULL;
 	}
 
-	float ReportFixture(b2Fixture* fixture, const b2Vec2& point,
-						  const b2Vec2& normal, float fraction) override
+	float32 ReportFixture(b2Fixture* fixture, const b2Vec2& point,
+						  const b2Vec2& normal, float32 fraction) override
 	{
 		m_fixture = fixture;
 		m_point = point;
@@ -95,9 +95,9 @@ public:
 		}
 
 		{
-			float w = 1.0f;
-			float b = w / (2.0f + b2Sqrt(2.0f));
-			float s = b2Sqrt(2.0f) * b;
+			float32 w = 1.0f;
+			float32 b = w / (2.0f + b2Sqrt(float32(2.0f)));
+			float32 s = b2Sqrt(float32(2.0f)) * b;
 
 			b2Vec2 vertices[8];
 			vertices[0].Set(0.5f * s, 0.0f);
@@ -247,7 +247,7 @@ public:
 	b2PolygonShape m_polygons[4];
 	b2CircleShape m_circle;
 
-	float m_angle;
+	float32 m_angle;
 };
 
 static int testIndex = RegisterTest("Geometry", "Edge Shapes", EdgeShapes::Create);

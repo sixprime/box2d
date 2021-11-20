@@ -213,20 +213,20 @@ void b2DynamicTree::InsertLeaf(int32 leaf)
 		int32 child1 = m_nodes[index].child1;
 		int32 child2 = m_nodes[index].child2;
 
-		float area = m_nodes[index].aabb.GetPerimeter();
+		float32 area = m_nodes[index].aabb.GetPerimeter();
 
 		b2AABB combinedAABB;
 		combinedAABB.Combine(m_nodes[index].aabb, leafAABB);
-		float combinedArea = combinedAABB.GetPerimeter();
+		float32 combinedArea = combinedAABB.GetPerimeter();
 
 		// Cost of creating a new parent for this node and the new leaf
-		float cost = 2.0f * combinedArea;
+		float32 cost = 2.0f * combinedArea;
 
 		// Minimum cost of pushing the leaf further down the tree
-		float inheritanceCost = 2.0f * (combinedArea - area);
+		float32 inheritanceCost = 2.0f * (combinedArea - area);
 
 		// Cost of descending into child1
-		float cost1;
+		float32 cost1;
 		if (m_nodes[child1].IsLeaf())
 		{
 			b2AABB aabb;
@@ -237,13 +237,13 @@ void b2DynamicTree::InsertLeaf(int32 leaf)
 		{
 			b2AABB aabb;
 			aabb.Combine(leafAABB, m_nodes[child1].aabb);
-			float oldArea = m_nodes[child1].aabb.GetPerimeter();
-			float newArea = aabb.GetPerimeter();
+			float32 oldArea = m_nodes[child1].aabb.GetPerimeter();
+			float32 newArea = aabb.GetPerimeter();
 			cost1 = (newArea - oldArea) + inheritanceCost;
 		}
 
 		// Cost of descending into child2
-		float cost2;
+		float32 cost2;
 		if (m_nodes[child2].IsLeaf())
 		{
 			b2AABB aabb;
@@ -254,8 +254,8 @@ void b2DynamicTree::InsertLeaf(int32 leaf)
 		{
 			b2AABB aabb;
 			aabb.Combine(leafAABB, m_nodes[child2].aabb);
-			float oldArea = m_nodes[child2].aabb.GetPerimeter();
-			float newArea = aabb.GetPerimeter();
+			float32 oldArea = m_nodes[child2].aabb.GetPerimeter();
+			float32 newArea = aabb.GetPerimeter();
 			cost2 = newArea - oldArea + inheritanceCost;
 		}
 
@@ -549,7 +549,7 @@ int32 b2DynamicTree::GetHeight() const
 }
 
 //
-float b2DynamicTree::GetAreaRatio() const
+float32 b2DynamicTree::GetAreaRatio() const
 {
 	if (m_root == b2_nullNode)
 	{
@@ -557,9 +557,9 @@ float b2DynamicTree::GetAreaRatio() const
 	}
 
 	const b2TreeNode* root = m_nodes + m_root;
-	float rootArea = root->aabb.GetPerimeter();
+	float32 rootArea = root->aabb.GetPerimeter();
 
-	float totalArea = 0.0f;
+	float32 totalArea = 0.0f;
 	for (int32 i = 0; i < m_nodeCapacity; ++i)
 	{
 		const b2TreeNode* node = m_nodes + i;
@@ -742,7 +742,7 @@ void b2DynamicTree::RebuildBottomUp()
 
 	while (count > 1)
 	{
-		float minCost = b2_maxFloat;
+		float32 minCost = b2_maxFloat;
 		int32 iMin = -1, jMin = -1;
 		for (int32 i = 0; i < count; ++i)
 		{
@@ -753,7 +753,7 @@ void b2DynamicTree::RebuildBottomUp()
 				b2AABB aabbj = m_nodes[nodes[j]].aabb;
 				b2AABB b;
 				b.Combine(aabbi, aabbj);
-				float cost = b.GetPerimeter();
+				float32 cost = b.GetPerimeter();
 				if (cost < minCost)
 				{
 					iMin = i;

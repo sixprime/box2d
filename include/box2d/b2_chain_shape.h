@@ -79,7 +79,7 @@ public:
 
 	/// Chains have zero mass.
 	/// @see b2Shape::ComputeMass
-	void ComputeMass(b2MassData* massData, float density) const override;
+	void ComputeMass(b2MassData* massData, float32 density) const override;
 
 	/// The vertices. Owned by this class.
 	b2Vec2* m_vertices;

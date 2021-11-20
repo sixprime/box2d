@@ -54,14 +54,14 @@ struct B2_API b2WeldJointDef : public b2JointDef
 	b2Vec2 localAnchorB;
 
 	/// The bodyB angle minus bodyA angle in the reference state (radians).
-	float referenceAngle;
+	float32 referenceAngle;
 
 	/// The rotational stiffness in N*m
 	/// Disable softness with a value of 0
-	float stiffness;
+	float32 stiffness;
 
 	/// The rotational damping in N*m*s
-	float damping;
+	float32 damping;
 };
 
 /// A weld joint essentially glues two bodies together. A weld joint may
@@ -72,8 +72,8 @@ public:
 	b2Vec2 GetAnchorA() const override;
 	b2Vec2 GetAnchorB() const override;
 
-	b2Vec2 GetReactionForce(float inv_dt) const override;
-	float GetReactionTorque(float inv_dt) const override;
+	b2Vec2 GetReactionForce(float32 inv_dt) const override;
+	float32 GetReactionTorque(float32 inv_dt) const override;
 
 	/// The local anchor point relative to bodyA's origin.
 	const b2Vec2& GetLocalAnchorA() const { return m_localAnchorA; }
@@ -82,15 +82,15 @@ public:
 	const b2Vec2& GetLocalAnchorB() const  { return m_localAnchorB; }
 
 	/// Get the reference angle.
-	float GetReferenceAngle() const { return m_referenceAngle; }
+	float32 GetReferenceAngle() const { return m_referenceAngle; }
 
 	/// Set/get stiffness in N*m
-	void SetStiffness(float hz) { m_stiffness = hz; }
-	float GetStiffness() const { return m_stiffness; }
+	void SetStiffness(float32 hz) { m_stiffness = hz; }
+	float32 GetStiffness() const { return m_stiffness; }
 
 	/// Set/get damping in N*m*s
-	void SetDamping(float damping) { m_damping = damping; }
-	float GetDamping() const { return m_damping; }
+	void SetDamping(float32 damping) { m_damping = damping; }
+	float32 GetDamping() const { return m_damping; }
 
 	/// Dump to b2Log
 	void Dump() override;
@@ -105,15 +105,15 @@ protected:
 	void SolveVelocityConstraints(const b2SolverData& data) override;
 	bool SolvePositionConstraints(const b2SolverData& data) override;
 
-	float m_stiffness;
-	float m_damping;
-	float m_bias;
+	float32 m_stiffness;
+	float32 m_damping;
+	float32 m_bias;
 
 	// Solver shared
 	b2Vec2 m_localAnchorA;
 	b2Vec2 m_localAnchorB;
-	float m_referenceAngle;
-	float m_gamma;
+	float32 m_referenceAngle;
+	float32 m_gamma;
 	b2Vec3 m_impulse;
 
 	// Solver temp
@@ -123,10 +123,10 @@ protected:
 	b2Vec2 m_rB;
 	b2Vec2 m_localCenterA;
 	b2Vec2 m_localCenterB;
-	float m_invMassA;
-	float m_invMassB;
-	float m_invIA;
-	float m_invIB;
+	float32 m_invMassA;
+	float32 m_invMassB;
+	float32 m_invIA;
+	float32 m_invIB;
 	b2Mat33 m_mass;
 };
 

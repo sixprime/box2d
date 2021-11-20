@@ -23,11 +23,22 @@
 #ifndef B2_TYPES_H
 #define B2_TYPES_H
 
+#if defined(B2_FIXED_POINT)
+#include "fpm/fixed.hpp"
+#endif
+
 typedef signed char	int8;
 typedef signed short int16;
 typedef signed int int32;
 typedef unsigned char uint8;
 typedef unsigned short uint16;
 typedef unsigned int uint32;
+
+#if defined(B2_FIXED_POINT)
+//using float32 = fpm::fixed_16_16;
+using float32 = fpm::fixed_24_8;
+#else
+using float32 = float;
+#endif // B2_FIXED_POINT
 
 #endif

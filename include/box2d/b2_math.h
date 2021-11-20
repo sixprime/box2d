@@ -28,14 +28,29 @@
 #include "b2_api.h"
 #include "b2_settings.h"
 
+#if defined(B2_FIXED_POINT)
+#include "fpm/math.hpp"
+#endif
+
 /// This function is used to ensure that a floating point number is not a NaN or infinity.
-inline bool b2IsValid(float x)
+inline bool b2IsValid(float32 x)
 {
+#if defined(B2_FIXED_POINT)
+	using namespace fpm;
+#endif
+
 	return isfinite(x);
 }
 
-#define	b2Sqrt(x)	sqrtf(x)
+#ifdef B2_FIXED_POINT
+#define	b2Sqrt(x)		fpm::sqrt(x)
+#define	b2Atan2(y, x)	fpm::atan2(y, x)
+#define b2Floor(x)		fpm::floor(x)
+#else
+#define	b2Sqrt(x)		sqrtf(x)
 #define	b2Atan2(y, x)	atan2f(y, x)
+#define b2Floor(x)		floorf(x)
+#endif // B2_FIXED_POINT
 
 /// A 2D column vector.
 struct B2_API b2Vec2
@@ -44,25 +59,25 @@ struct B2_API b2Vec2
 	b2Vec2() {}
 
 	/// Construct using coordinates.
-	b2Vec2(float xIn, float yIn) : x(xIn), y(yIn) {}
+	b2Vec2(float32 xIn, float32 yIn) : x(xIn), y(yIn) {}
 
 	/// Set this vector to all zeros.
 	void SetZero() { x = 0.0f; y = 0.0f; }
 
 	/// Set this vector to some specified coordinates.
-	void Set(float x_, float y_) { x = x_; y = y_; }
+	void Set(float32 x_, float32 y_) { x = x_; y = y_; }
 
 	/// Negate this vector.
 	b2Vec2 operator -() const { b2Vec2 v; v.Set(-x, -y); return v; }
 
 	/// Read from and indexed element.
-	float operator () (int32 i) const
+	float32 operator () (int32 i) const
 	{
 		return (&x)[i];
 	}
 
 	/// Write to an indexed element.
-	float& operator () (int32 i)
+	float32& operator () (int32 i)
 	{
 		return (&x)[i];
 	}
@@ -80,33 +95,33 @@ struct B2_API b2Vec2
 	}
 
 	/// Multiply this vector by a scalar.
-	void operator *= (float a)
+	void operator *= (float32 a)
 	{
 		x *= a; y *= a;
 	}
 
 	/// Get the length of this vector (the norm).
-	float Length() const
+	float32 Length() const
 	{
 		return b2Sqrt(x * x + y * y);
 	}
 
 	/// Get the length squared. For performance, use this instead of
 	/// b2Vec2::Length (if possible).
-	float LengthSquared() const
+	float32 LengthSquared() const
 	{
 		return x * x + y * y;
 	}
 
 	/// Convert this vector into a unit vector. Returns the length.
-	float Normalize()
+	float32 Normalize()
 	{
-		float length = Length();
+		float32 length = Length();
 		if (length < b2_epsilon)
 		{
 			return 0.0f;
 		}
-		float invLength = 1.0f / length;
+		float32 invLength = 1.0f / length;
 		x *= invLength;
 		y *= invLength;
 
@@ -125,7 +140,7 @@ struct B2_API b2Vec2
 		return b2Vec2(-y, x);
 	}
 
-	float x, y;
+	float32 x, y;
 };
 
 /// A 2D column vector with 3 elements.
@@ -135,13 +150,13 @@ struct B2_API b2Vec3
 	b2Vec3() {}
 
 	/// Construct using coordinates.
-	b2Vec3(float xIn, float yIn, float zIn) : x(xIn), y(yIn), z(zIn) {}
+	b2Vec3(float32 xIn, float32 yIn, float32 zIn) : x(xIn), y(yIn), z(zIn) {}
 
 	/// Set this vector to all zeros.
 	void SetZero() { x = 0.0f; y = 0.0f; z = 0.0f; }
 
 	/// Set this vector to some specified coordinates.
-	void Set(float x_, float y_, float z_) { x = x_; y = y_; z = z_; }
+	void Set(float32 x_, float32 y_, float32 z_) { x = x_; y = y_; z = z_; }
 
 	/// Negate this vector.
 	b2Vec3 operator -() const { b2Vec3 v; v.Set(-x, -y, -z); return v; }
@@ -159,12 +174,12 @@ struct B2_API b2Vec3
 	}
 
 	/// Multiply this vector by a scalar.
-	void operator *= (float s)
+	void operator *= (float32 s)
 	{
 		x *= s; y *= s; z *= s;
 	}
 
-	float x, y, z;
+	float32 x, y, z;
 };
 
 /// A 2-by-2 matrix. Stored in column-major order.
@@ -181,7 +196,7 @@ struct B2_API b2Mat22
 	}
 
 	/// Construct this matrix using scalars.
-	b2Mat22(float a11, float a12, float a21, float a22)
+	b2Mat22(float32 a11, float32 a12, float32 a21, float32 a22)
 	{
 		ex.x = a11; ex.y = a21;
 		ey.x = a12; ey.y = a22;
@@ -210,9 +225,9 @@ struct B2_API b2Mat22
 
 	b2Mat22 GetInverse() const
 	{
-		float a = ex.x, b = ey.x, c = ex.y, d = ey.y;
+		float32 a = ex.x, b = ey.x, c = ex.y, d = ey.y;
 		b2Mat22 B;
-		float det = a * d - b * c;
+		float32 det = a * d - b * c;
 		if (det != 0.0f)
 		{
 			det = 1.0f / det;
@@ -226,8 +241,8 @@ struct B2_API b2Mat22
 	/// than computing the inverse in one-shot cases.
 	b2Vec2 Solve(const b2Vec2& b) const
 	{
-		float a11 = ex.x, a12 = ey.x, a21 = ex.y, a22 = ey.y;
-		float det = a11 * a22 - a12 * a21;
+		float32 a11 = ex.x, a12 = ey.x, a21 = ex.y, a22 = ey.y;
+		float32 det = a11 * a22 - a12 * a21;
 		if (det != 0.0f)
 		{
 			det = 1.0f / det;
@@ -289,7 +304,7 @@ struct B2_API b2Rot
 	b2Rot() {}
 
 	/// Initialize from an angle in radians
-	explicit b2Rot(float angle)
+	explicit b2Rot(float32 angle)
 	{
 		/// TODO_ERIN optimize
 		s = sinf(angle);
@@ -297,7 +312,7 @@ struct B2_API b2Rot
 	}
 
 	/// Set using an angle in radians.
-	void Set(float angle)
+	void Set(float32 angle)
 	{
 		/// TODO_ERIN optimize
 		s = sinf(angle);
@@ -312,7 +327,7 @@ struct B2_API b2Rot
 	}
 
 	/// Get the angle in radians
-	float GetAngle() const
+	float32 GetAngle() const
 	{
 		return b2Atan2(s, c);
 	}
@@ -330,7 +345,7 @@ struct B2_API b2Rot
 	}
 
 	/// Sine and cosine
-	float s, c;
+	float32 s, c;
 };
 
 /// A transform contains translation and rotation. It is used to represent
@@ -351,7 +366,7 @@ struct B2_API b2Transform
 	}
 
 	/// Set this based on the position and angle.
-	void Set(const b2Vec2& position, float angle)
+	void Set(const b2Vec2& position, float32 angle)
 	{
 		p = position;
 		q.Set(angle);
@@ -370,49 +385,49 @@ struct B2_API b2Sweep
 	/// Get the interpolated transform at a specific time.
 	/// @param transform the output transform
 	/// @param beta is a factor in [0,1], where 0 indicates alpha0.
-	void GetTransform(b2Transform* transform, float beta) const;
+	void GetTransform(b2Transform* transform, float32 beta) const;
 
 	/// Advance the sweep forward, yielding a new initial state.
 	/// @param alpha the new initial time.
-	void Advance(float alpha);
+	void Advance(float32 alpha);
 
 	/// Normalize the angles.
 	void Normalize();
 
 	b2Vec2 localCenter;	///< local center of mass position
 	b2Vec2 c0, c;		///< center world positions
-	float a0, a;		///< world angles
+	float32 a0, a;		///< world angles
 
 	/// Fraction of the current time step in the range [0,1]
 	/// c0 and a0 are the positions at alpha0.
-	float alpha0;
+	float32 alpha0;
 };
 
 /// Useful constant
 extern B2_API const b2Vec2 b2Vec2_zero;
 
 /// Perform the dot product on two vectors.
-inline float b2Dot(const b2Vec2& a, const b2Vec2& b)
+inline float32 b2Dot(const b2Vec2& a, const b2Vec2& b)
 {
 	return a.x * b.x + a.y * b.y;
 }
 
 /// Perform the cross product on two vectors. In 2D this produces a scalar.
-inline float b2Cross(const b2Vec2& a, const b2Vec2& b)
+inline float32 b2Cross(const b2Vec2& a, const b2Vec2& b)
 {
 	return a.x * b.y - a.y * b.x;
 }
 
 /// Perform the cross product on a vector and a scalar. In 2D this produces
 /// a vector.
-inline b2Vec2 b2Cross(const b2Vec2& a, float s)
+inline b2Vec2 b2Cross(const b2Vec2& a, float32 s)
 {
 	return b2Vec2(s * a.y, -s * a.x);
 }
 
 /// Perform the cross product on a scalar and a vector. In 2D this produces
 /// a vector.
-inline b2Vec2 b2Cross(float s, const b2Vec2& a)
+inline b2Vec2 b2Cross(float32 s, const b2Vec2& a)
 {
 	return b2Vec2(-s * a.y, s * a.x);
 }
@@ -443,7 +458,7 @@ inline b2Vec2 operator - (const b2Vec2& a, const b2Vec2& b)
 	return b2Vec2(a.x - b.x, a.y - b.y);
 }
 
-inline b2Vec2 operator * (float s, const b2Vec2& a)
+inline b2Vec2 operator * (float32 s, const b2Vec2& a)
 {
 	return b2Vec2(s * a.x, s * a.y);
 }
@@ -458,19 +473,19 @@ inline bool operator != (const b2Vec2& a, const b2Vec2& b)
 	return a.x != b.x || a.y != b.y;
 }
 
-inline float b2Distance(const b2Vec2& a, const b2Vec2& b)
+inline float32 b2Distance(const b2Vec2& a, const b2Vec2& b)
 {
 	b2Vec2 c = a - b;
 	return c.Length();
 }
 
-inline float b2DistanceSquared(const b2Vec2& a, const b2Vec2& b)
+inline float32 b2DistanceSquared(const b2Vec2& a, const b2Vec2& b)
 {
 	b2Vec2 c = a - b;
 	return b2Dot(c, c);
 }
 
-inline b2Vec3 operator * (float s, const b2Vec3& a)
+inline b2Vec3 operator * (float32 s, const b2Vec3& a)
 {
 	return b2Vec3(s * a.x, s * a.y, s * a.z);
 }
@@ -488,7 +503,7 @@ inline b2Vec3 operator - (const b2Vec3& a, const b2Vec3& b)
 }
 
 /// Perform the dot product on two vectors.
-inline float b2Dot(const b2Vec3& a, const b2Vec3& b)
+inline float32 b2Dot(const b2Vec3& a, const b2Vec3& b)
 {
 	return a.x * b.x + a.y * b.y + a.z * b.z;
 }
@@ -570,18 +585,18 @@ inline b2Vec2 b2MulT(const b2Rot& q, const b2Vec2& v)
 
 inline b2Vec2 b2Mul(const b2Transform& T, const b2Vec2& v)
 {
-	float x = (T.q.c * v.x - T.q.s * v.y) + T.p.x;
-	float y = (T.q.s * v.x + T.q.c * v.y) + T.p.y;
+	float32 x = (T.q.c * v.x - T.q.s * v.y) + T.p.x;
+	float32 y = (T.q.s * v.x + T.q.c * v.y) + T.p.y;
 
 	return b2Vec2(x, y);
 }
 
 inline b2Vec2 b2MulT(const b2Transform& T, const b2Vec2& v)
 {
-	float px = v.x - T.p.x;
-	float py = v.y - T.p.y;
-	float x = (T.q.c * px + T.q.s * py);
-	float y = (-T.q.s * px + T.q.c * py);
+	float32 px = v.x - T.p.x;
+	float32 py = v.y - T.p.y;
+	float32 x = (T.q.c * px + T.q.s * py);
+	float32 y = (-T.q.s * px + T.q.c * py);
 
 	return b2Vec2(x, y);
 }
@@ -625,6 +640,11 @@ inline b2Mat22 b2Abs(const b2Mat22& A)
 template <typename T>
 inline T b2Min(T a, T b)
 {
+    return a < b ? a : b;
+}
+
+inline const float32& b2Min(const float32& a, const float32& b)
+{
 	return a < b ? a : b;
 }
 
@@ -636,6 +656,11 @@ inline b2Vec2 b2Min(const b2Vec2& a, const b2Vec2& b)
 template <typename T>
 inline T b2Max(T a, T b)
 {
+    return a > b ? a : b;
+}
+
+inline const float32& b2Max(const float32& a, const float32& b)
+{
 	return a > b ? a : b;
 }
 
@@ -646,6 +671,11 @@ inline b2Vec2 b2Max(const b2Vec2& a, const b2Vec2& b)
 
 template <typename T>
 inline T b2Clamp(T a, T low, T high)
+{
+    return b2Max(low, b2Min(a, high));
+}
+
+inline const float32& b2Clamp(const float32& a, const float32& low, const float32& high)
 {
 	return b2Max(low, b2Min(a, high));
 }
@@ -684,20 +714,20 @@ inline bool b2IsPowerOfTwo(uint32 x)
 }
 
 // https://fgiesen.wordpress.com/2012/08/15/linear-interpolation-past-present-and-future/
-inline void b2Sweep::GetTransform(b2Transform* xf, float beta) const
+inline void b2Sweep::GetTransform(b2Transform* xf, float32 beta) const
 {
 	xf->p = (1.0f - beta) * c0 + beta * c;
-	float angle = (1.0f - beta) * a0 + beta * a;
+	float32 angle = (1.0f - beta) * a0 + beta * a;
 	xf->q.Set(angle);
 
 	// Shift to origin
 	xf->p -= b2Mul(xf->q, localCenter);
 }
 
-inline void b2Sweep::Advance(float alpha)
+inline void b2Sweep::Advance(float32 alpha)
 {
 	b2Assert(alpha0 < 1.0f);
-	float beta = (alpha - alpha0) / (1.0f - alpha0);
+	float32 beta = (alpha - alpha0) / (1.0f - alpha0);
 	c0 += beta * (c - c0);
 	a0 += beta * (a - a0);
 	alpha0 = alpha;
@@ -706,8 +736,8 @@ inline void b2Sweep::Advance(float alpha)
 /// Normalize an angle in radians to be between -pi and pi
 inline void b2Sweep::Normalize()
 {
-	float twoPi = 2.0f * b2_pi;
-	float d =  twoPi * floorf(a0 / twoPi);
+	float32 twoPi = 2.0f * b2_pi;
+	float32 d =  twoPi * b2Floor(a0 / twoPi);
 	a0 -= d;
 	a -= d;
 }

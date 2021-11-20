@@ -32,9 +32,9 @@ public:
 	Rope()
 	{
 		const int32 N = 20;
-		const float L = 0.5f;
+		const float32 L = 0.5f;
 		b2Vec2 vertices[N];
-		float masses[N];
+		float32 masses[N];
 
 		for (int32 i = 0; i < N; ++i)
 		{
@@ -124,9 +124,12 @@ public:
 			ImGui::EndCombo();
 		}
 
-		ImGui::SliderFloat("Damping##B1", &m_tuning1.bendDamping, 0.0f, 4.0f, "%.1f");
-		ImGui::SliderFloat("Hertz##B1", &m_tuning1.bendHertz, 0.0f, 60.0f, "%.0f");
-		ImGui::SliderFloat("Stiffness##B1", &m_tuning1.bendStiffness, 0.0f, 1.0f, "%.1f");
+		auto bendDamping = float(m_tuning1.bendDamping);
+		ImGui::SliderFloat("Damping##B1", &bendDamping, 0.0f, 4.0f, "%.1f");
+		auto bendHertz = float(m_tuning1.bendHertz);
+		ImGui::SliderFloat("Hertz##B1", &bendHertz, 0.0f, 60.0f, "%.0f");
+		auto bendStiffness = float(m_tuning1.bendStiffness);
+		ImGui::SliderFloat("Stiffness##B1", &bendStiffness, 0.0f, 1.0f, "%.1f");
 
 		ImGui::Checkbox("Isometric##1", &m_tuning1.isometric);
 		ImGui::Checkbox("Fixed Mass##1", &m_tuning1.fixedEffectiveMass);
@@ -152,9 +155,12 @@ public:
 			ImGui::EndCombo();
 		}
 
-		ImGui::SliderFloat("Damping##S1", &m_tuning1.stretchDamping, 0.0f, 4.0f, "%.1f");
-		ImGui::SliderFloat("Hertz##S1", &m_tuning1.stretchHertz, 0.0f, 60.0f, "%.0f");
-		ImGui::SliderFloat("Stiffness##S1", &m_tuning1.stretchStiffness, 0.0f, 1.0f, "%.1f");
+		auto stretchDamping = float(m_tuning1.stretchDamping);
+		ImGui::SliderFloat("Damping##S1", &stretchDamping, 0.0f, 4.0f, "%.1f");
+		auto stretchHertz = float(m_tuning1.stretchHertz);
+		ImGui::SliderFloat("Hertz##S1", &stretchHertz, 0.0f, 60.0f, "%.0f");
+		auto stretchStiffness = float(m_tuning1.stretchStiffness);
+		ImGui::SliderFloat("Stiffness##S1", &stretchStiffness, 0.0f, 1.0f, "%.1f");
 
 		ImGui::SliderInt("Iterations##1", &m_iterations1, 1, 100, "%d");
 
@@ -181,9 +187,12 @@ public:
 			ImGui::EndCombo();
 		}
 
-		ImGui::SliderFloat("Damping##B2", &m_tuning2.bendDamping, 0.0f, 4.0f, "%.1f");
-		ImGui::SliderFloat("Hertz##B2", &m_tuning2.bendHertz, 0.0f, 60.0f, "%.0f");
-		ImGui::SliderFloat("Stiffness##B2", &m_tuning2.bendStiffness, 0.0f, 1.0f, "%.1f");
+		auto bendDamping2 = float(m_tuning2.bendDamping);
+		ImGui::SliderFloat("Damping##B2", &bendDamping2, 0.0f, 4.0f, "%.1f");
+		auto bendHertz2 = float(m_tuning2.bendHertz);
+		ImGui::SliderFloat("Hertz##B2", &bendHertz2, 0.0f, 60.0f, "%.0f");
+		auto bendStiffness2 = float(m_tuning2.bendStiffness);
+		ImGui::SliderFloat("Stiffness##B2", &bendStiffness2, 0.0f, 1.0f, "%.1f");
 
 		ImGui::Checkbox("Isometric##2", &m_tuning2.isometric);
 		ImGui::Checkbox("Fixed Mass##2", &m_tuning2.fixedEffectiveMass);
@@ -209,9 +218,12 @@ public:
 			ImGui::EndCombo();
 		}
 
-		ImGui::SliderFloat("Damping##S2", &m_tuning2.stretchDamping, 0.0f, 4.0f, "%.1f");
-		ImGui::SliderFloat("Hertz##S2", &m_tuning2.stretchHertz, 0.0f, 60.0f, "%.0f");
-		ImGui::SliderFloat("Stiffness##S2", &m_tuning2.stretchStiffness, 0.0f, 1.0f, "%.1f");
+		auto stretchDamping2 = float(m_tuning2.stretchDamping);
+		ImGui::SliderFloat("Damping##S2", &stretchDamping2, 0.0f, 4.0f, "%.1f");
+		auto stretchHertz2 = float(m_tuning2.stretchHertz);
+		ImGui::SliderFloat("Hertz##S2", &stretchHertz2, 0.0f, 60.0f, "%.0f");
+		auto stretchStiffness2 = float(m_tuning2.stretchStiffness);
+		ImGui::SliderFloat("Stiffness##S2", &stretchStiffness2, 0.0f, 1.0f, "%.1f");
 
 		ImGui::SliderInt("Iterations##2", &m_iterations2, 1, 100, "%d");
 

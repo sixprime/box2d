@@ -56,19 +56,19 @@ struct B2_API b2DistanceJointDef : public b2JointDef
 	b2Vec2 localAnchorB;
 
 	/// The rest length of this joint. Clamped to a stable minimum value.
-	float length;
+	float32 length;
 
 	/// Minimum length. Clamped to a stable minimum value.
-	float minLength;
+	float32 minLength;
 
 	/// Maximum length. Must be greater than or equal to the minimum length.
-	float maxLength;
+	float32 maxLength;
 
 	/// The linear stiffness in N/m.
-	float stiffness;
+	float32 stiffness;
 
 	/// The linear damping in N*s/m.
-	float damping;
+	float32 damping;
 };
 
 /// A distance joint constrains two points on two bodies to remain at a fixed
@@ -82,11 +82,11 @@ public:
 
 	/// Get the reaction force given the inverse time step.
 	/// Unit is N.
-	b2Vec2 GetReactionForce(float inv_dt) const override;
+	b2Vec2 GetReactionForce(float32 inv_dt) const override;
 
 	/// Get the reaction torque given the inverse time step.
 	/// Unit is N*m. This is always zero for a distance joint.
-	float GetReactionTorque(float inv_dt) const override;
+	float32 GetReactionTorque(float32 inv_dt) const override;
 
 	/// The local anchor point relative to bodyA's origin.
 	const b2Vec2& GetLocalAnchorA() const { return m_localAnchorA; }
@@ -95,36 +95,36 @@ public:
 	const b2Vec2& GetLocalAnchorB() const  { return m_localAnchorB; }
 
 	/// Get the rest length
-	float GetLength() const { return m_length; }
+	float32 GetLength() const { return m_length; }
 
 	/// Set the rest length
 	/// @returns clamped rest length
-	float SetLength(float length);
+	float32 SetLength(float32 length);
 
 	/// Get the minimum length
-	float GetMinLength() const { return m_minLength; }
+	float32 GetMinLength() const { return m_minLength; }
 
 	/// Set the minimum length
 	/// @returns the clamped minimum length
-	float SetMinLength(float minLength);
+	float32 SetMinLength(float32 minLength);
 
 	/// Get the maximum length
-	float GetMaxLength() const { return m_maxLength; }
+	float32 GetMaxLength() const { return m_maxLength; }
 
 	/// Set the maximum length
 	/// @returns the clamped maximum length
-	float SetMaxLength(float maxLength);
+	float32 SetMaxLength(float32 maxLength);
 
 	/// Get the current length
-	float GetCurrentLength() const;
+	float32 GetCurrentLength() const;
 
 	/// Set/get the linear stiffness in N/m
-	void SetStiffness(float stiffness) { m_stiffness = stiffness; }
-	float GetStiffness() const { return m_stiffness; }
+	void SetStiffness(float32 stiffness) { m_stiffness = stiffness; }
+	float32 GetStiffness() const { return m_stiffness; }
 
 	/// Set/get linear damping in N*s/m
-	void SetDamping(float damping) { m_damping = damping; }
-	float GetDamping() const { return m_damping; }
+	void SetDamping(float32 damping) { m_damping = damping; }
+	float32 GetDamping() const { return m_damping; }
 
 	/// Dump joint to dmLog
 	void Dump() override;
@@ -141,20 +141,20 @@ protected:
 	void SolveVelocityConstraints(const b2SolverData& data) override;
 	bool SolvePositionConstraints(const b2SolverData& data) override;
 
-	float m_stiffness;
-	float m_damping;
-	float m_bias;
-	float m_length;
-	float m_minLength;
-	float m_maxLength;
+	float32 m_stiffness;
+	float32 m_damping;
+	float32 m_bias;
+	float32 m_length;
+	float32 m_minLength;
+	float32 m_maxLength;
 
 	// Solver shared
 	b2Vec2 m_localAnchorA;
 	b2Vec2 m_localAnchorB;
-	float m_gamma;
-	float m_impulse;
-	float m_lowerImpulse;
-	float m_upperImpulse;
+	float32 m_gamma;
+	float32 m_impulse;
+	float32 m_lowerImpulse;
+	float32 m_upperImpulse;
 
 	// Solver temp
 	int32 m_indexA;
@@ -164,13 +164,13 @@ protected:
 	b2Vec2 m_rB;
 	b2Vec2 m_localCenterA;
 	b2Vec2 m_localCenterB;
-	float m_currentLength;
-	float m_invMassA;
-	float m_invMassB;
-	float m_invIA;
-	float m_invIB;
-	float m_softMass;
-	float m_mass;
+	float32 m_currentLength;
+	float32 m_invMassA;
+	float32 m_invMassB;
+	float32 m_invIA;
+	float32 m_invIB;
+	float32 m_softMass;
+	float32 m_mass;
 };
 
 #endif

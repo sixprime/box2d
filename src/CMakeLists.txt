@@ -113,7 +113,9 @@ set_target_properties(box2d PROPERTIES
     SOVERSION ${PROJECT_VERSION_MAJOR}
 )
 
+# Fixed-point support.
 target_link_libraries(box2d fpm)
+target_compile_definitions(box2d PUBLIC -DB2_FIXED_POINT)
 
 if(MSVC)
   set_target_properties(box2d PROPERTIES

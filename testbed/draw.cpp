@@ -671,7 +671,7 @@ void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, cons
 }
 
 //
-void DebugDraw::DrawCircle(const b2Vec2& center, float radius, const b2Color& color)
+void DebugDraw::DrawCircle(const b2Vec2& center, float32 radius, const b2Color& color)
 {
 	const float k_segments = 16.0f;
 	const float k_increment = 2.0f * b2_pi / k_segments;
@@ -694,7 +694,7 @@ void DebugDraw::DrawCircle(const b2Vec2& center, float radius, const b2Color& co
 }
 
 //
-void DebugDraw::DrawSolidCircle(const b2Vec2& center, float radius, const b2Vec2& axis, const b2Color& color)
+void DebugDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2& axis, const b2Color& color)
 {
 	const float k_segments = 16.0f;
 	const float k_increment = 2.0f * b2_pi / k_segments;
@@ -763,7 +763,7 @@ void DebugDraw::DrawTransform(const b2Transform& xf)
 }
 
 //
-void DebugDraw::DrawPoint(const b2Vec2& p, float size, const b2Color& color)
+void DebugDraw::DrawPoint(const b2Vec2& p, float32 size, const b2Color& color)
 {
 	m_points->Vertex(p, color, size);
 }

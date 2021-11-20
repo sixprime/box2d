@@ -46,13 +46,13 @@ struct B2_API b2MouseJointDef : public b2JointDef
 	/// The maximum constraint force that can be exerted
 	/// to move the candidate body. Usually you will express
 	/// as some multiple of the weight (multiplier * mass * gravity).
-	float maxForce;
+	float32 maxForce;
 
 	/// The linear stiffness in N/m
-	float stiffness;
+	float32 stiffness;
 
 	/// The linear damping in N*s/m
-	float damping;
+	float32 damping;
 };
 
 /// A mouse joint is used to make a point on a body track a
@@ -73,26 +73,26 @@ public:
 	b2Vec2 GetAnchorB() const override;
 
 	/// Implements b2Joint.
-	b2Vec2 GetReactionForce(float inv_dt) const override;
+	b2Vec2 GetReactionForce(float32 inv_dt) const override;
 
 	/// Implements b2Joint.
-	float GetReactionTorque(float inv_dt) const override;
+	float32 GetReactionTorque(float32 inv_dt) const override;
 
 	/// Use this to update the target point.
 	void SetTarget(const b2Vec2& target);
 	const b2Vec2& GetTarget() const;
 
 	/// Set/get the maximum force in Newtons.
-	void SetMaxForce(float force);
-	float GetMaxForce() const;
+	void SetMaxForce(float32 force);
+	float32 GetMaxForce() const;
 
 	/// Set/get the linear stiffness in N/m
-	void SetStiffness(float stiffness) { m_stiffness = stiffness; }
-	float GetStiffness() const { return m_stiffness; }
+	void SetStiffness(float32 stiffness) { m_stiffness = stiffness; }
+	float32 GetStiffness() const { return m_stiffness; }
 
 	/// Set/get linear damping in N*s/m
-	void SetDamping(float damping) { m_damping = damping; }
-	float GetDamping() const { return m_damping; }
+	void SetDamping(float32 damping) { m_damping = damping; }
+	float32 GetDamping() const { return m_damping; }
 
 	/// The mouse joint does not support dumping.
 	void Dump() override { b2Log("Mouse joint dumping is not supported.\n"); }
@@ -111,22 +111,22 @@ protected:
 
 	b2Vec2 m_localAnchorB;
 	b2Vec2 m_targetA;
-	float m_stiffness;
-	float m_damping;
-	float m_beta;
+	float32 m_stiffness;
+	float32 m_damping;
+	float32 m_beta;
 
 	// Solver shared
 	b2Vec2 m_impulse;
-	float m_maxForce;
-	float m_gamma;
+	float32 m_maxForce;
+	float32 m_gamma;
 
 	// Solver temp
 	int32 m_indexA;
 	int32 m_indexB;
 	b2Vec2 m_rB;
 	b2Vec2 m_localCenterB;
-	float m_invMassB;
-	float m_invIB;
+	float32 m_invMassB;
+	float32 m_invIB;
 	b2Mat22 m_mass;
 	b2Vec2 m_C;
 };
